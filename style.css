@@ -52,7 +52,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    align-items: centers;
+    align-items: flex-start;
     justify-content: flex-start;
 }
 
@@ -75,7 +75,7 @@ body {
 
 
 .title-col .title {
-    font-family: "Unbounded";
+    font-family: "Unbounded", sans-serif;
 }
 
 .title-col .subtitle {
@@ -96,4 +96,34 @@ body {
     padding: 10px 20px;
     border-radius: 30px;
     border: none;
+    background-color: #FBF7FF;
+    color: #1E1033;
+    cursor: pointer;
+}
+
+.main-body {
+    display: flex;
+    margin-top: 40px;
+}
+
+.field-container {
+    display: flex;
+    background-color: #FFFFFF;
+    color: #202124;
+    border-radius: 30px;
+    flex: 1;
+    flex-direction: column;
+    padding: 30px;
+    gap: 40px;
+}
+
+
+
+
+
+
+
+.results-col {
+
+    flex: 2;
 }
