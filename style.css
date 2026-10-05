@@ -9,10 +9,15 @@
     font-family: "Plus Jakarta Sans", sans-serif;
 }
 
+body {
+    background-color: #1e1033;
+}
+
 .container {
     max-width: 1200px;
     margin-inline: auto;
     padding-inline: 1.5rem;
+    color: #FFFFFF;
 }
 
 .header {
@@ -37,3 +42,38 @@
     color: #FFFFFF;
     border-radius: 10px;
 }
+
+.title-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: centers;
+    justify-content: flex-start;
+}
+
+.tags {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.tag {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #d9bef0;
+    border-radius: 30px;
+    padding: 6px 20px;
+    font-weight: 700;
+    background-color: #5b4b7a;
+}
+
+
+.title-col .title {
+    font-family: "Unbounded";
+}
+
+.title-col .subtitle {
+    color: #d9bef0;
+    margin-bottom: 10px;
+};
