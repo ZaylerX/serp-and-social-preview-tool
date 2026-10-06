@@ -328,3 +328,35 @@ label {
 .checklist-item.last {
     border-bottom: none;
 }
+
+.generated-tags {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sub-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.copy-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    color: #9F1ad0;
+    font-size: 14px;
+    font-weight: 700;
+    background-color: #F1E5FB;
+    border: 1px solid #9F1ad0;
+    border-radius: 10px;
+}
+
+.code-block {
+    height: 100px;
+    background-color: #F1E5FB;
+    border-radius: 10px;
+}
