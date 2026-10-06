@@ -81,7 +81,7 @@ body {
 .title-col .subtitle {
     color: #d9bef0;
     margin-bottom: 10px;
-};
+}
 
 .icon {
     display: flex;
@@ -353,10 +353,19 @@ label {
     background-color: #F1E5FB;
     border: 1px solid #9F1ad0;
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .code-block {
-    height: 100px;
     background-color: #F1E5FB;
     border-radius: 10px;
+    padding: 20px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+}
+
+.code-block code {
+    font-family: inherit;
 }
