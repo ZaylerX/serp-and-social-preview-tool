@@ -15,7 +15,9 @@ const titleJudgement = document.querySelector("#title-judgement");
 const descJudgement = document.querySelector("#description-judgement");
 
 const googleTitle = document.querySelector("#google-title");
-const googleDesc = document.querySelector("#google-desc")
+const googleDesc = document.querySelector("#google-desc");
+
+const urlPreview = document.querySelector("#slug-preview-text");
 
 // Declaring state constant
 const state = {
@@ -46,13 +48,30 @@ function applyJudgement(element, result) {
     element.classList.add(result.className);
 }
 
-// Function to display the Google preview
+// Function to display the Google Title and Desc preview
 function googlePreview(element, text, placeholder, max) {
     if (text.trim().length > max) {
         element.textContent = `${text.trim().slice(0, max)}...`;
-
     } else {
         element.textContent = text.trim() || placeholder;
+    }
+}
+
+// Function to display the Google URL Preview
+function urlPreview(url) {
+    let urlLine = url.trim();
+    if (!urlLine) {
+        return "example.com › level-1 › level-2";
+    }
+    if (!urlLine.toLowerCase().startsWith("http://") && !urlLine.toLowerCase().startsWith("https://")) {
+        urlLine = "https://" + urlLine;
+    }
+    try {
+        let urlObject = new URL(urlLine);
+        console.log(urlObject.hostname, urlObject.pathname);
+    }
+    catch {
+        console.log("Invalid URL")
     }
 }
 
