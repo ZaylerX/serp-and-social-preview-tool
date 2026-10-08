@@ -7,7 +7,7 @@
     <meta name="description" content="Try our SERP & Social Previewer to find out if your meta tags 
     respect Google guidelines.">
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </head>
 <body>
     <div class="container">
@@ -41,8 +41,8 @@
                         <label for="title-input" class="input-field title-tag">Title tag</label>
                         <input type="text" id="title-input" class="input-field input-box" placeholder="Insert your text here">
                         <div class="input-field check">
-                            <p class="input-field character-count">0/60 characters</p>
-                            <p class="input-field judgement">Optimal</p>
+                            <p class="input-field character-count" id="title-count">0/60 characters</p>
+                            <p class="input-field judgement" id="title-judgement">-</p>
                         </div>
                     </div>
 
@@ -50,8 +50,8 @@
                         <label for="description-input" class="input-field description-tag">Description tag</label>
                         <input type="text" id="description-input" class="input-field input-box" placeholder="Insert your text here">
                         <div class="input-field check">
-                            <p class="input-field character-count">0/155 characters</p>
-                            <p class="input-field judgement">Optimal</p>
+                            <p class="input-field character-count" id="description-count">0/155 characters</p>
+                            <p class="input-field judgement" id="description-judgement">-</p>
                         </div>
                     </div>
 
@@ -87,8 +87,8 @@
                         <i class="slug-preview-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.3.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.--><path d="M64 320C64 178.6 178.6 64 320 64C461.4 64 576 178.6 576 320C576 461.4 461.4 576 320 576C178.6 576 64 461.4 64 320z"/></svg></i>
                         <div class="slug-preview-text">example.com › seo-tools › serp-preview</div>
                     </div>
-                    <div class="google-preview-title">SERP & Meta Tag Optimizer — Boost Your Google Rankings</div>
-                    <div class="google-preview-desc">Preview how your page appears in Google search results and social shares. Optimize titles, descriptions, and Open Graph tags in real time...</div>
+                    <div class="google-preview-title" id="google-title">SERP & Meta Tag Optimizer — Boost Your Google Rankings</div>
+                    <div class="google-preview-desc"id="google-desc">Preview how your page appears in Google search results and social shares. Optimize titles, descriptions, and Open Graph tags in real time...</div>
                 </section>
                 <section class="field-container social-preview">
                     <img src="https://blocks.astratic.com/img/general-img-landscape.png" alt="" class="social-preview-image">

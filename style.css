@@ -159,13 +159,31 @@ label {
 }
 
 .judgement {
-    color: #9F1ad0;
-    background-color: #F1E5FB;
     padding: 5px 10px;
     border-radius: 30px;
     display: flex;
     font-weight: 700;
     justify-content: center;
+}
+
+.neutral {
+    background-color: #F1E5FB;
+    color: #5B4B7A;
+}
+
+.short {
+    background-color: #FEF3C7;
+    color: #92400E;
+}
+
+.long {
+    background-color: #FEE2E2;
+    color: #991B1B;
+}
+
+.optimal {
+    background-color: #DCFCE7;
+    color: #166534;
 }
 
 .preview {
