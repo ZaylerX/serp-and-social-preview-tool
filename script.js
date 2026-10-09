@@ -22,6 +22,7 @@ const slugPreviewText = document.querySelector("#slug-preview-text");
 const socialUrl = document.querySelector("#fb-url");
 const socialTitle = document.querySelector("#social-title");
 const socialDesc = document.querySelector("#social-desc");
+const socialImg = document.querySelector("#social-preview-image")
 
 // Declaring state constant
 const state = {
@@ -36,7 +37,8 @@ const placeholderTexts = {
     title: "Your title will appear here",
     description: "Your description will appear here",
     url: "example.com › level-1 › level-2",
-    domain: "example.com"
+    domain: "example.com",
+    img: "https://blocks.astratic.com/img/general-img-landscape.png"
 }
 
 // Function for determining the judgement visual
@@ -103,6 +105,14 @@ function extractDomain(urlObject) {
     return urlObject.hostname
 }
 
+// Function to replace the image
+function updateImg(imageField, newImg, defaultImg) {
+    const imageToShow = newImg.trim() || defaultImg;
+    if (imageField.getAttribute("src") !== imageToShow) {
+        imageField.setAttribute("src", imageToShow);
+    }
+}
+
 
 // Function to display the results
 function render() {
@@ -121,12 +131,22 @@ function render() {
     const urlObject = parseUrl(state.url);
     slugPreviewText.textContent = buildSlug(urlObject);
     socialUrl.textContent = extractDomain(urlObject);
+
+    updateImg(socialImg, state.socialImage, placeholderTexts.img)
 }
+
+// Listener to handle invalid URLs
+socialImg.addEventListener("error", () => {
+    if (socialImg.getAttribute("src") !== placeholderTexts.img) {
+        socialImg.setAttribute("src", placeholderTexts.img)
+    }
+})
+
 
 // Listener for all inputs
 Object.entries(inputs).forEach(([key, element]) => {
     element.addEventListener("input", (event) => {
-        state[key] = event.target.value;
+        state[key] = event.target.value;   
         render();
     })
 });
