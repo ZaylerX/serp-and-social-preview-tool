@@ -7,7 +7,7 @@ const inputs = {
     socialImage : document.querySelector("#social-input")
 };
 
-// Storing various UI elements in consts
+// Storing UI elements in consts
 const titleCounter = document.querySelector("#title-count");
 const descCounter = document.querySelector("#description-count");
 
@@ -19,6 +19,10 @@ const googleDesc = document.querySelector("#google-desc");
 
 const slugPreviewText = document.querySelector("#slug-preview-text");
 
+const socialUrl = document.querySelector("#fb-url");
+const socialTitle = document.querySelector("#social-title");
+const socialDesc = document.querySelector("#social-desc");
+
 // Declaring state constant
 const state = {
     title : "",
@@ -27,6 +31,13 @@ const state = {
     keyword : "",
     socialImage : ""
 };
+
+const placeholderTexts = {
+    title: "Your title will appear here",
+    description: "Your description will appear here",
+    url: "example.com › level-1 › level-2",
+    domain: "example.com"
+}
 
 // Function for determining the judgement visual
 function judgement(length, min, max) {
@@ -48,8 +59,8 @@ function applyJudgement(element, result) {
     element.classList.add(result.className);
 }
 
-// Function to display the Google Title and Desc preview
-function googlePreview(element, text, placeholder, max) {
+// Function to display generic Title and Desc preview
+function textPreview(element, text, placeholder, max) {
     if (text.trim().length > max) {
         element.textContent = `${text.trim().slice(0, max)}...`;
     } else {
@@ -57,27 +68,41 @@ function googlePreview(element, text, placeholder, max) {
     }
 }
 
-// Function to display the Google URL Preview
-function urlPreview(url) {
-    const placeHolderText = "example.com › level-1 › level-2";
+// Function to validate a URL
+function parseUrl(url) {
+
     let urlLine = url.trim();
     if (!urlLine) {
-        return placeHolderText;
+        return null;
     }
     if (!urlLine.toLowerCase().startsWith("http://") && !urlLine.toLowerCase().startsWith("https://")) {
         urlLine = "https://" + urlLine;
     }
     try {
-        let urlObject = new URL(urlLine);
-        let urlArr= urlObject.pathname.split("/").filter((e) => e !== "");
-        urlArr.unshift(urlObject.hostname);
-        let urlFinal = urlArr.join(" › ")
-        return urlFinal
-    }
-    catch {
-        return placeHolderText;
+        return new URL(urlLine);
+    } catch {
+        return null;
     }
 }
+
+// Function to build slug from initial URL
+function buildSlug(urlObject) {
+    if (!urlObject) {
+        return placeholderTexts.url;
+    }
+    const segments = urlObject.pathname.split("/").filter((segment) => segment !== "");
+    segments.unshift(urlObject.hostname);
+    return segments.join(" › ");
+}
+
+// Function to extract domain only
+function extractDomain(urlObject) {
+    if(!urlObject) {
+        return placeholderTexts.domain;
+    }
+    return urlObject.hostname
+}
+
 
 // Function to display the results
 function render() {
@@ -87,10 +112,15 @@ function render() {
     applyJudgement(titleJudgement, judgement(state.title.length, 50, 60));
     applyJudgement(descJudgement, judgement(state.description.length, 120, 155));
 
-    googlePreview(googleTitle, state.title, "Your page title will appear here", 60);
-    googlePreview(googleDesc, state.description, "Your page description will appear here", 155);
+    textPreview(googleTitle, state.title, placeholderTexts.title, 60);
+    textPreview(googleDesc, state.description, placeholderTexts.description, 155);
 
-    slugPreviewText.textContent = urlPreview(state.url);
+    textPreview(socialTitle, state.title, placeholderTexts.title, 70);
+    textPreview(socialDesc, state.description, placeholderTexts.description, 200);
+
+    const urlObject = parseUrl(state.url);
+    slugPreviewText.textContent = buildSlug(urlObject);
+    socialUrl.textContent = extractDomain(urlObject);
 }
 
 // Listener for all inputs
