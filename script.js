@@ -41,6 +41,66 @@ const placeholderTexts = {
     img: "https://blocks.astratic.com/img/general-img-landscape.png"
 }
 
+const seoChecklistRules = [
+    {
+        passText : "Title length is within the optimal range.",
+        failText : "Title should be within 50 and 60 characters",
+        check : (state) => {
+            const length = state.title.trim().length;
+            if (length === 0) {
+                return null;
+            }
+            return length >= 50 && length <= 60;
+        }
+    },
+    {
+        passText : "Description length is within the optimal range.",
+        failText : "Description should be within 120 and 155 characters.",
+        check : (state) => {
+            const length = state.description.trim().length;
+            if (length === 0) {
+                return null;
+            }
+            return length >= 120 && length <= 155;
+        }
+    },
+    {
+        passText : "The target keyword is in the first part of the title.",
+        failText : "Move the target keyword earlier in the title.",
+        check : (state) => {
+            const keyword = state.keyword.trim().toLowerCase();
+            const title = state.title.trim().toLowerCase();
+            if (keyword === "" || title === "") {
+                return null;
+            }
+            return title.slice(0, 25).includes(keyword);
+        }
+    },
+    {
+        passText : "The target keyword is in the first part of the description.",
+        failText : "Move the target keyword earlier in the description.",
+        check : (state) => {
+            const keyword = state.keyword.trim().toLowerCase();
+            const description = state.description.trim().toLowerCase();
+            if (keyword === "" || description === "") {
+                return null;
+            }
+            return description.slice(0, 75).includes(keyword);
+        }
+    },
+    {
+        passText : "URL is clean, lowercase and readable.",
+        failText : "Correct URL issues.",
+        check : (state) => {
+            const url = state.url.trim();
+            if (url === "") {
+                return null;
+            }
+            return url === url.toLowerCase() && !url.includes(" ") && !url.includes("_");
+        }
+    }
+]
+
 // Function for determining the judgement visual
 function judgement(length, min, max) {
     if (length === 0) {
