@@ -101,6 +101,21 @@ const seoChecklistRules = [
     }
 ]
 
+function evaluateRules(state) {
+    return seoChecklistRules
+        .map((rule) => {
+            const passed = rule.check(state);
+            let text;
+            if (passed) {
+                text = rule.passText;
+            } else {
+                text = rule.failText;
+            }
+            return { passed: passed, text: text };
+        })
+        .filter((result) => result.passed !== null);
+}
+
 // Function for determining the judgement visual
 function judgement(length, min, max) {
     if (length === 0) {
