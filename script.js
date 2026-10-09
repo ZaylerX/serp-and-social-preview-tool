@@ -17,7 +17,7 @@ const descJudgement = document.querySelector("#description-judgement");
 const googleTitle = document.querySelector("#google-title");
 const googleDesc = document.querySelector("#google-desc");
 
-const urlPreview = document.querySelector("#slug-preview-text");
+const slugPreviewText = document.querySelector("#slug-preview-text");
 
 // Declaring state constant
 const state = {
@@ -59,19 +59,23 @@ function googlePreview(element, text, placeholder, max) {
 
 // Function to display the Google URL Preview
 function urlPreview(url) {
+    const placeHolderText = "example.com › level-1 › level-2";
     let urlLine = url.trim();
     if (!urlLine) {
-        return "example.com › level-1 › level-2";
+        return placeHolderText;
     }
     if (!urlLine.toLowerCase().startsWith("http://") && !urlLine.toLowerCase().startsWith("https://")) {
         urlLine = "https://" + urlLine;
     }
     try {
         let urlObject = new URL(urlLine);
-        console.log(urlObject.hostname, urlObject.pathname);
+        let urlArr= urlObject.pathname.split("/").filter((e) => e !== "");
+        urlArr.unshift(urlObject.hostname);
+        let urlFinal = urlArr.join(" › ")
+        return urlFinal
     }
     catch {
-        console.log("Invalid URL")
+        return placeHolderText;
     }
 }
 
@@ -85,6 +89,8 @@ function render() {
 
     googlePreview(googleTitle, state.title, "Your page title will appear here", 60);
     googlePreview(googleDesc, state.description, "Your page description will appear here", 155);
+
+    slugPreviewText.textContent = urlPreview(state.url);
 }
 
 // Listener for all inputs
