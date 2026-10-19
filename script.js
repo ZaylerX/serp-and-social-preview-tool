@@ -1,3 +1,9 @@
+// Storing icons 
+const seoIcons = {
+    pass: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check preview-icon"><circle cx="12" cy="12" r="10"/><path d="m16 9-5.5 5.5L8 12"/></svg>`,
+    fail: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x preview-icon"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>`
+};
+
 // Storing inputs in an object
 const inputs = {
     title : document.querySelector("#title-input"),
@@ -23,6 +29,8 @@ const socialUrl = document.querySelector("#fb-url");
 const socialTitle = document.querySelector("#social-title");
 const socialDesc = document.querySelector("#social-desc");
 const socialImg = document.querySelector("#social-preview-image")
+
+const checklist = document.querySelector("#checklist");
 
 // Declaring state constant
 const state = {
@@ -188,6 +196,34 @@ function updateImg(imageField, newImg, defaultImg) {
     }
 }
 
+function createChecklistItem(result) {
+    let resultValue;
+    if (result.passed) {
+        resultValue = "pass"; 
+    } else {
+        resultValue = "fail"
+    }
+    const checklistItem = document.createElement("li");
+    checklistItem.classList.add("checklist-item", resultValue);
+
+    const checklistIcon = document.createElement("i");
+    checklistIcon.classList.add("checklist-icon");
+    checklistIcon.innerHTML = seoIcons[resultValue];
+
+    const checklistText = document.createElement("div");
+    checklistText.classList.add("checklist-text");
+    checklistText.textContent = result.text;
+
+    checklistItem.append(checklistIcon, checklistText);
+
+    return checklistItem;
+}
+
+function renderChecklist(results) {
+    const items = results.map(createChecklistItem);
+    checklist.replaceChildren(...items);
+}
+
 
 // Function to display the results
 function render() {
@@ -208,6 +244,8 @@ function render() {
     socialUrl.textContent = extractDomain(urlObject);
 
     updateImg(socialImg, state.socialImage, placeholderTexts.img)
+
+    renderChecklist(evaluateRules(state));
 }
 
 // Listener to handle invalid URLs

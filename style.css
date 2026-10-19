@@ -342,7 +342,15 @@ label {
     color: #9F1ad0;
 }
 
-.checklist-item.last {
+.pass .checklist-icon {
+    color: #166534;
+}
+
+.fail .checklist-icon {
+    color: #991B1B;
+}
+
+.checklist-item:last-child {
     border-bottom: none;
 }
 
