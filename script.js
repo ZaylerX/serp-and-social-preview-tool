@@ -71,6 +71,16 @@ const previewLimits = {
     mobile: {title: 50, description: 120}
 };
 
+const seoLimits = {
+    title: { min: 50, max: 60},
+    description: { min: 120, max: 155}
+};
+
+const socialLimits = {
+    title: { min: 50, max: 70},
+    description: { min: 120, max: 200}
+};
+
 const themeButtonContent = {
     light: {
         text: "Midnight Mode",
@@ -85,24 +95,24 @@ const themeButtonContent = {
 const seoChecklistRules = [
     {
         passText : "Title length is within the optimal range.",
-        failText : "Title should be within 50 and 60 characters.",
+        failText : `Title should be within ${seoLimits.title.min} and ${seoLimits.title.max} characters.`,
         check : (state) => {
             const length = state.title.trim().length;
             if (length === 0) {
                 return null;
             }
-            return length >= 50 && length <= 60;
+            return length >= seoLimits.title.min && length <= seoLimits.title.max;
         }
     },
     {
         passText : "Description length is within the optimal range.",
-        failText : "Description should be within 120 and 155 characters.",
+        failText : `Description should be within ${seoLimits.description.min} and ${seoLimits.description.max} characters.`,
         check : (state) => {
             const length = state.description.trim().length;
             if (length === 0) {
                 return null;
             }
-            return length >= 120 && length <= 155;
+            return length >= seoLimits.description.min && length <= seoLimits.description.max;
         }
     },
     {
@@ -188,7 +198,6 @@ function textPreview(element, text, placeholder, max) {
 
 // Function to validate a URL
 function parseUrl(url) {
-
     let urlLine = url.trim();
     if (!urlLine) {
         return null;
@@ -197,7 +206,11 @@ function parseUrl(url) {
         urlLine = "https://" + urlLine;
     }
     try {
-        return new URL(urlLine);
+        const urlObject = new URL(urlLine);
+        if  (!urlObject.hostname.includes(".")) {
+            return null;
+        }
+        return urlObject;
     } catch {
         return null;
     }
@@ -302,11 +315,11 @@ function buildMetaTags(state, urlObject) {
 
 // Function to display the results
 function render() {
-    titleCounter.textContent = `${state.title.length}/60 characters`;
-    descCounter.textContent = `${state.description.length}/155 characters`;
+    titleCounter.textContent = `${state.title.length}/${seoLimits.title.max} characters`;
+    descCounter.textContent = `${state.description.length}/${seoLimits.description.max} characters`;
 
-    applyJudgement(titleJudgement, judgement(state.title.length, 50, 60));
-    applyJudgement(descJudgement, judgement(state.description.length, 120, 155));
+    applyJudgement(titleJudgement, judgement(state.title.length, seoLimits.title.min, seoLimits.title.max));
+    applyJudgement(descJudgement, judgement(state.description.length, seoLimits.description.min, seoLimits.description.max));
 
     desktopButton.classList.toggle("active", state.mode === "desktop");
     mobileButton.classList.toggle("active", state.mode === "mobile");
@@ -316,8 +329,8 @@ function render() {
     textPreview(googleTitle, state.title, placeholderTexts.title, previewLimits[state.mode].title);
     textPreview(googleDesc, state.description, placeholderTexts.description, previewLimits[state.mode].description);
 
-    textPreview(socialTitle, state.title, placeholderTexts.title, 70);
-    textPreview(socialDesc, state.description, placeholderTexts.description, 200);
+    textPreview(socialTitle, state.title, placeholderTexts.title, socialLimits.title.max);
+    textPreview(socialDesc, state.description, placeholderTexts.description, socialLimits.description.max);
 
     const urlObject = parseUrl(state.url);
     slugPreviewText.textContent = buildSlug(urlObject);
@@ -372,7 +385,7 @@ mobileButton.addEventListener("click", () => {
     render();
 });
 
-// Listnere for light/dark mode
+// Listener for light/dark mode
 
 modeSwitchButton.addEventListener("click", () => {
     if (state.theme === "light") {
