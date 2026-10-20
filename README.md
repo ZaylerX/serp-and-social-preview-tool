@@ -1,6 +1,7 @@
 # SERPscope
 
 *Try out my tool here:* https://zaylerx.github.io/serp-and-social-preview-tool/
+
 A small tool to preview how a page will look in Google search results and in a social share card, before you publish it. You type a title, a description, a URL and an image, and the page shows you the result, checks it against a few basic SEO rules, and writes the meta tags for you.
 
 I work in SEO, so this started from something I do by hand every day: counting characters and guessing what will get cut off. It is also my first real JavaScript project, built without any framework.
