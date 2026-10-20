@@ -32,6 +32,11 @@ const socialImg = document.querySelector("#social-preview-image")
 
 const checklist = document.querySelector("#checklist");
 
+const codeSection = document.querySelector("#generated-code")
+
+const copyButton = document.querySelector("#copy-button")
+const copyButtonText = document.querySelector("#copy-button .copy-text")
+
 // Declaring state constant
 const state = {
     title : "",
@@ -52,7 +57,7 @@ const placeholderTexts = {
 const seoChecklistRules = [
     {
         passText : "Title length is within the optimal range.",
-        failText : "Title should be within 50 and 60 characters",
+        failText : "Title should be within 50 and 60 characters.",
         check : (state) => {
             const length = state.title.trim().length;
             if (length === 0) {
@@ -98,7 +103,7 @@ const seoChecklistRules = [
     },
     {
         passText : "URL is clean, lowercase and readable.",
-        failText : "Correct URL issues.",
+        failText : "Make sure your URL is clean, lowercase and readable.",
         check : (state) => {
             const url = state.url.trim();
             if (url === "") {
@@ -224,6 +229,48 @@ function renderChecklist(results) {
     checklist.replaceChildren(...items);
 }
 
+// Function to replace symbols with code
+function escapeHtml(htmlCode) {
+    return htmlCode
+        .replaceAll("&", "&amp;")
+        .replaceAll(`"`, "&quot;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+}
+
+// Build code meta-tags
+function buildMetaTags(state, urlObject) {
+    const title = escapeHtml(state.title.trim());
+    const description = escapeHtml(state.description.trim());
+    const image = escapeHtml(state.socialImage.trim());
+
+    const lines = [];
+
+    if (title) {
+        lines.push(`<title>${title}</title>`)
+    }
+    if (description) {
+        lines.push(`<meta name="description" content="${description}">`);
+    }
+    lines.push(`<meta property="og:type" content="website">`);
+    if (title) {
+        lines.push(`<meta property="og:title" content="${title}">`);
+    }
+    if (description) {
+        lines.push(`<meta property="og:description" content="${description}">`);
+    }
+    if (image) {
+        lines.push(`<meta property="og:image" content="${image}">`);
+    }
+    if (urlObject) {
+        lines.push(`<meta property="og:url" content="${escapeHtml(urlObject.href)}">`);
+    }
+
+    lines.push(`<meta name="twitter:card" content="summary_large_image">`);
+
+    return lines.join("\n");
+}
+
 
 // Function to display the results
 function render() {
@@ -246,6 +293,8 @@ function render() {
     updateImg(socialImg, state.socialImage, placeholderTexts.img)
 
     renderChecklist(evaluateRules(state));
+
+    codeSection.textContent = buildMetaTags(state, urlObject);
 }
 
 // Listener to handle invalid URLs
@@ -262,6 +311,15 @@ Object.entries(inputs).forEach(([key, element]) => {
         state[key] = event.target.value;   
         render();
     })
+});
+
+// Listener for copy button
+copyButton.addEventListener("click", () => {
+    navigator.clipboard.writeText(codeSection.textContent);
+    copyButtonText.textContent = "Copied!";
+    setTimeout(() => {
+        copyButtonText.textContent = "Copy";
+    }, 2000);
 });
 
 render();
