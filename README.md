@@ -31,10 +31,9 @@ The dark theme uses CSS custom properties: JavaScript only adds or removes a `da
 ## What I learned
 
 - Keeping state in one place and rendering from it, instead of updating the page in many places.
-- Building DOM elements from code, and why user text goes in `textContent` and not `innerHTML`.
+- Building DOM elements from code
 - Escaping characters like quotes and ampersands before putting them in generated HTML.
-- CSS variables for theming, and why a variable should describe a role (like "muted text") rather than a color.
-- Reproducing a bug before trying to fix it. Most of mine were a wrong variable name or a `=` where I needed `===`.
+- CSS variables for theming
 
 ## Known limitations
 
