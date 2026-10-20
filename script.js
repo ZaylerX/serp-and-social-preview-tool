@@ -32,10 +32,15 @@ const socialImg = document.querySelector("#social-preview-image")
 
 const checklist = document.querySelector("#checklist");
 
-const codeSection = document.querySelector("#generated-code")
+const codeSection = document.querySelector("#generated-code");
 
-const copyButton = document.querySelector("#copy-button")
-const copyButtonText = document.querySelector("#copy-button .copy-text")
+const copyButton = document.querySelector("#copy-button");
+const copyButtonText = document.querySelector("#copy-button .copy-text");
+
+const desktopButton = document.querySelector(".desktop-preview");
+const mobileButton = document.querySelector(".mobile-preview");
+
+const searchPreviewBox = document.querySelector(".search-preview");
 
 // Declaring state constant
 const state = {
@@ -43,7 +48,8 @@ const state = {
     description : "",
     url : "",
     keyword : "",
-    socialImage : ""
+    socialImage : "",
+    mode: "desktop"
 };
 
 const placeholderTexts = {
@@ -53,6 +59,11 @@ const placeholderTexts = {
     domain: "example.com",
     img: "https://blocks.astratic.com/img/general-img-landscape.png"
 }
+
+const previewLimits = {
+    desktop: { title: 60, description: 155},
+    mobile: {title: 50, description: 120}
+};
 
 const seoChecklistRules = [
     {
@@ -280,8 +291,13 @@ function render() {
     applyJudgement(titleJudgement, judgement(state.title.length, 50, 60));
     applyJudgement(descJudgement, judgement(state.description.length, 120, 155));
 
-    textPreview(googleTitle, state.title, placeholderTexts.title, 60);
-    textPreview(googleDesc, state.description, placeholderTexts.description, 155);
+    desktopButton.classList.toggle("active", state.mode === "desktop");
+    mobileButton.classList.toggle("active", state.mode === "mobile");
+
+    searchPreviewBox.classList.toggle("mobile", state.mode === "mobile");
+
+    textPreview(googleTitle, state.title, placeholderTexts.title, previewLimits[state.mode].title);
+    textPreview(googleDesc, state.description, placeholderTexts.description, previewLimits[state.mode].description);
 
     textPreview(socialTitle, state.title, placeholderTexts.title, 70);
     textPreview(socialDesc, state.description, placeholderTexts.description, 200);
@@ -320,6 +336,17 @@ copyButton.addEventListener("click", () => {
     setTimeout(() => {
         copyButtonText.textContent = "Copy";
     }, 2000);
+});
+
+// Listeners for desktop/mobile buttons
+desktopButton.addEventListener("click", () => {
+    state.mode = "desktop";
+    render();
+});
+
+mobileButton.addEventListener("click", () => {
+    state.mode = "mobile";
+    render();
 });
 
 render();
